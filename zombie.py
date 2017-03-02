@@ -19,7 +19,7 @@ class Zombie(Sprite):
 		game_settings.zombie_in_row[self.yard_row] += 1
 
 	def update_me(self):
-		self.x -= self.speed * 20
+		self.x -= self.speed * 1
 		self.rect.x = self.x
 
 	def draw_me(self):

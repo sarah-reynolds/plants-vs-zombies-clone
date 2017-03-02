@@ -16,7 +16,10 @@ class Plant(Sprite):
 		self.last_shot = 0
 		self.last_sun = 0
 		self.sun_speed = 0
-		self.sun_cost = 0
+
 
 	def draw_me(self):
 		self.screen.blit(self.image, self.rect)
+
+	def take_damage(self, damage):
+		self.health -= damage

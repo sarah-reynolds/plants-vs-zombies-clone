@@ -6,7 +6,7 @@ from pygame.sprite import Group, groupcollide
 from zombie import Zombie
 from square import Square
 from plant_icon import Plant_Icon
-
+import time
 
 pygame.init()
 game_settings = Settings()
@@ -23,7 +23,7 @@ plants = Group()
 squares = Group()
 bullets = Group()
 
-print game_settings.squares["rows"][1]
+# print game_settings.squares["rows"][1]
 
 for i in range(0,5):
 	for j in range(0,9):
@@ -31,9 +31,9 @@ for i in range(0,5):
 
 def run_game():
 	tick = 0
-	while game_settings.game_active:
+	while 1:
+		gf.check_events(screen, game_settings, squares, plants, bullets, icons)
 		if game_settings.game_active:
-			gf.check_events(screen, game_settings, squares, plants, bullets, icons)
 			tick += 1
 			if tick % 30 == 0:
 				zombies.add(Zombie(screen, game_settings))
@@ -47,9 +47,24 @@ def run_game():
 					if zombie.health <= 0:
 						zombies.remove(zombie)
 						game_settings.zombie_in_row[zombie.yard_row] -= 1
-			plant_died = groupcollide(plants, zombies, True, False)
+						game_settings.zombies_killed += 1
+			zombies_eating = groupcollide(zombies, plants, False, False)
+			for zombie in zombies_eating:
 
-			
+				damaged_plant = zombies_eating[zombie][0]
+				print damaged_plant
+				if zombie.yard_row == damaged_plant.yard_row:
+					zombie.moving = False
+					if time.time() - zombie.started_eating > zombie.damage_time:
+						print "Zombie took a bite"
+						damaged_plant.take_damage(2)
+						zombie.started_eating = time.time()
+						if damaged_plant.health <= 0:
+							plants.remove(damaged_plant)
+							zombie.moving = True
+							damaged_plant.square.plant_here = False
+
+
 		gf.update_screen(screen, game_settings, background, zombies, squares, plants, bullets, tick, icons)
 		pygame.display.flip()
 

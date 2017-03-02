@@ -12,4 +12,5 @@ class Peashooter(Plant):
 		self.square = square
 		self.can_shoot = True
 		self.can_make_sun = False
+		self.sun_cost = 100
 		super(Peashooter, self).__init__()

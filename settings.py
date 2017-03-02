@@ -9,7 +9,7 @@ class Settings():
 		self.zombie_health = 4
 		self.game_active = True
 		self.chosen_plant = 1
-		# self.zombies_killed = 0
+		self.zombies_killed = 0
 		self.total_sun = 50
 
 		self.squares = {

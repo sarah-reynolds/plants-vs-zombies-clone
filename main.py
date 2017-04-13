@@ -8,8 +8,9 @@ from square import Square
 from plant_icon import Plant_Icon
 import time
 
+# initiate pygame, instantiate classes (passing arguments if needed), create needed variables
 pygame.init()
-game_settings = Settings()
+game_settings = Settings() # instantiate Settings() from settings.py to use the class
 screen = pygame.display.set_mode(game_settings.screen_size)
 pygame.display.set_caption("DC PvZ clone")
 background  = Background(game_settings)
@@ -18,7 +19,7 @@ gatling_icon = Plant_Icon(game_settings,'gatling-icon.png',2)
 sunflower_icon = Plant_Icon(game_settings,'sunflower-icon.png',3)
 icons = [peashooter_icon,gatling_icon,sunflower_icon]
 
-zombies = Group()
+zombies = Group() # Group() comes from pygame.sprite
 plants = Group()
 squares = Group()
 bullets = Group()
@@ -30,12 +31,12 @@ for i in range(0,5):
 		squares.add(Square(screen, game_settings, i, j))
 
 def run_game():
-	tick = 0
+	tick = 0 # each tick a screen reload
 	while 1:
 		gf.check_events(screen, game_settings, squares, plants, bullets, icons)
 		if game_settings.game_active:
 			tick += 1
-			if tick % 30 == 0:
+			if tick % 30 == 0: # every 30 seconds, add a zombie to the game
 				zombies.add(Zombie(screen, game_settings))
 
 			zombies_hit = groupcollide(zombies, bullets, False, False)
